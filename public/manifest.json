@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "ICC Label",
+  "version": "1.0.0",
+  "description": "A Chrome extension to add ICC labels information such as pages quantity, width, height, length, and weight to the ICC labels.",
+  "action": {
+    "default_popup": "index.html"
+  },
+  "permissions": ["scripting"],
+  "host_permissions": ["http://*/*", "https://*/*"],
+  "icons": {
+    "16": "icon-16.png",
+    "32": "icon-32.png",
+    "48": "icon-48.png",
+    "128": "icon-128.png"
+  }
+}
