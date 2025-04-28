@@ -2,7 +2,7 @@
 
 A Chrome extension that streamlines the process of filling ICC label information by importing data from Excel spreadsheets.
 
-![ICC Label Assistant Logo](/logo.png)
+![ICC Label Assistant Logo](./public/logo.png)
 
 ## Features
 
