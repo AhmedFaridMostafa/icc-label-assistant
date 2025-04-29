@@ -5,7 +5,7 @@ import generateYM from './generateYM';
 export default function mapExcelDataWithHandle(
   acc: { [key: string]: DataWithHandle },
   row: ExcelRow,
-) {
+): { [key: string]: DataWithHandle } {
   const po = String(row['PO#'] || '');
   if (!po) return acc;
   const shipDateField =

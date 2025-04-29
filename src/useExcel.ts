@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import * as XLSX from 'xlsx';
-import { DataWithHandle, ExcelRow, UserFeedback } from './types';
+
+import { DataWithHandle, UserFeedback } from './types';
 import mapExcelDataWithHandle from './utils/mapExcelDataWithHandle';
+import readExcelFile from './utils/readExcelFile';
 
 export default function useExcel() {
   const [iccData, setIccData] = useState<{ [key: string]: DataWithHandle }>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [feedback, setFeedback] = useState<UserFeedback | null>(null);
-  const poKey = 'PO#';
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
@@ -29,49 +29,7 @@ export default function useExcel() {
         return;
       }
 
-      const data = await file.arrayBuffer();
-
-      const workbook = XLSX.read(data, {
-        type: 'array',
-        cellDates: true,
-        cellNF: false,
-        cellStyles: false,
-      });
-
-      if (workbook.SheetNames.length === 0)
-        throw new Error('No sheets found in the workbook');
-
-      const sheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[sheetName];
-
-      if (!worksheet['!ref']) throw new Error('Worksheet is empty');
-
-      const range = XLSX.utils.decode_range(worksheet['!ref']);
-      range.e.r = range.s.r;
-
-      const rawHeader = XLSX.utils.sheet_to_json(worksheet, {
-        header: 1,
-        range,
-      })[0] as string[];
-
-      if (!rawHeader || rawHeader.length === 0)
-        throw new Error('No header row found in the worksheet');
-
-      const cleanedHeader = rawHeader.map((h: string) =>
-        typeof h === 'string' ? h.trim() : String(h),
-      );
-
-      const jsonData = XLSX.utils.sheet_to_json(worksheet, {
-        header: cleanedHeader,
-        range: 1,
-      }) as ExcelRow[];
-
-      if (jsonData.length === 0)
-        throw new Error('No data rows found in the worksheet');
-
-      if (!jsonData[0][poKey])
-        throw new Error(`PO key field "${poKey}" not found in the data`);
-
+      const jsonData = await readExcelFile(file);
       const dataWithHandel = jsonData.reduce(mapExcelDataWithHandle, {});
 
       setIccData(dataWithHandel);

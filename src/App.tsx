@@ -43,6 +43,7 @@ function App() {
         active: true,
         currentWindow: true,
       });
+
       if (!tab.id) {
         setExecutionStatus({
           message: 'Could not access current tab',

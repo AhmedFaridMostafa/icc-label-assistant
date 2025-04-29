@@ -90,7 +90,7 @@ npm run build
 
 ### Reporting Issues
 
-Please report any bugs or feature requests on the [GitHub issues page](https://github.com/yourusername/icc-label-assistant/issues).
+Please report any bugs or feature requests on the [GitHub issues page](https://github.com/AhmedFaridMostafa/icc-label-assistant/issues).
 
 ## License
 
